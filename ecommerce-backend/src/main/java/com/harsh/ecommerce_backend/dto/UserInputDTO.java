@@ -16,6 +16,7 @@ import lombok.Setter;
 @Setter
 public class UserInputDTO {
     @NotBlank
+    @NotNull
     @Size(max = 100)
     private String name;
 
@@ -25,6 +26,7 @@ public class UserInputDTO {
     private String email;
 
     @NotBlank
+    @NotNull
     @Size(min = 8)
     private String password;
 
