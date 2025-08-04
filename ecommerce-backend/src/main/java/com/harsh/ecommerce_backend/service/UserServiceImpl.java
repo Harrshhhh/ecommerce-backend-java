@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponseDTO getUserById(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() ->  new ResourceNotFoundException("User", "id", userId));
+        User user = userRepository.findById(userId).orElseThrow(() ->  new ResourceNotFoundException("User not found with id: "+ userId));
         return convertToUserResponseDTO(user);
     }
 
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponseDTO updateUser(Long userId, UserInputDTO updatedUserInputDTO) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: "+ userId));
         user.setName(updatedUserInputDTO.getName());
         user.setEmail(updatedUserInputDTO.getEmail());
         user.setPassword(updatedUserInputDTO.getPassword());
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean deleteUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: "+ userId));
         userRepository.delete(user);
         return true;
     }
