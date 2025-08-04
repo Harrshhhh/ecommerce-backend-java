@@ -5,6 +5,7 @@ import com.harsh.ecommerce_backend.dto.UserResponseDTO;
 import com.harsh.ecommerce_backend.entity.User;
 import com.harsh.ecommerce_backend.exceptions.ResourceNotFoundException;
 import com.harsh.ecommerce_backend.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,9 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public UserResponseDTO createUser(UserInputDTO userInputDTO) {
@@ -64,23 +68,13 @@ public class UserServiceImpl implements UserService{
 
     //Conversion from UserInputDTo to User
     private User userDtoToUser(UserInputDTO userInputDTO){
-        User user = new User();
-        user.setName(userInputDTO.getName());
-        user.setEmail(userInputDTO.getEmail());
-        user.setPassword(userInputDTO.getPassword());
-        user.setRole(userInputDTO.getRole());
+        User user = this.modelMapper.map(userInputDTO, User.class);
         return user;
     }
 
     //Conversion from User to UserResponseDTO
     private UserResponseDTO convertToUserResponseDTO(User user){
-        UserResponseDTO userResponseDTO = new UserResponseDTO();
-        userResponseDTO.setId(user.getId());
-        userResponseDTO.setName(user.getName());
-        userResponseDTO.setEmail(user.getEmail());
-        userResponseDTO.setRole(user.getRole());
-        userResponseDTO.setCreatedAt(user.getCreatedAt());
-        userResponseDTO.setModifiedAt(user.getUpdatedAt());
+        UserResponseDTO userResponseDTO = modelMapper.map(user, UserResponseDTO.class);
         return userResponseDTO;
     }
 }
