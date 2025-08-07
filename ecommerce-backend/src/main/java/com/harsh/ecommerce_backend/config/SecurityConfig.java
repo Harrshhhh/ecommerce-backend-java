@@ -13,8 +13,11 @@ public class SecurityConfig {
         http
                 .csrf().disable() // Disable CSRF for easier Postman/API testing
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/**").permitAll()  // Allow unauthenticated access to your user APIs
-                        .anyRequest().authenticated()  // Other requests need authentication
+                        // Permit unauthenticated access to User and Product APIs
+                        .requestMatchers("/api/users/**").permitAll()
+                        .requestMatchers("/api/products/**").permitAll()
+                        // Other requests require authentication
+                        .anyRequest().authenticated()
                 );
         return http.build();
     }
